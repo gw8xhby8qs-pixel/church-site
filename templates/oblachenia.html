@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Облачение священнослужителей</title>
+
+    <style>
+        body{
+            margin:0;
+            font-family:Georgia, serif;
+            color:white;
+            background:url("/static/images/bg.jpg") center/cover fixed;
+        }
+
+        /* домой */
+        .home{
+            position:fixed;
+            top:20px;
+            left:20px;
+            background:#4B2E2B;
+            padding:10px 18px;
+            border-radius:8px;
+            text-decoration:none;
+            color:white;
+        }
+
+        /* верх */
+        .top-buttons{
+            display:flex;
+            justify-content:center;
+            gap:20px;
+            margin-top:20px;
+        }
+
+        .top-btn{
+            width:90px;
+            cursor:pointer;
+            border:2px solid transparent;
+            border-radius:10px;
+        }
+
+        .top-btn.active{
+            border:2px solid gold;
+            box-shadow:0 0 15px gold;
+        }
+
+        /* центр */
+        .main{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:80vh;
+        }
+
+        .wrapper{
+            display:flex;
+            align-items:center;
+            gap:30px;
+        }
+
+        /* слева */
+        .side-menu{
+            display:flex;
+            flex-direction:column;
+            gap:10px;
+        }
+
+        .side-btn{
+            padding:10px;
+            background:rgba(0,0,0,0.7);
+            border:2px solid transparent;
+            color:white;
+            cursor:pointer;
+            border-radius:8px;
+        }
+
+        .side-btn.active{
+            border:2px solid gold;
+            box-shadow:0 0 10px gold;
+        }
+
+        /* картинка */
+        .content{
+            position:relative;
+            display:inline-block;
+        }
+
+        .content img{
+            max-width:600px;
+            max-height:70vh;
+            object-fit:contain;
+            border:4px solid gold;
+            border-radius:12px;
+        }
+
+        /* маркеры */
+        .marker{
+            position:absolute;
+            width:18px;
+            height:18px;
+            background:gold;
+            border-radius:50%;
+            cursor:pointer;
+            transform:translate(-50%, -50%);
+            box-shadow:0 0 10px gold;
+            animation:pulse 1.5s infinite;
+        }
+
+        @keyframes pulse{
+            0%{transform:translate(-50%, -50%) scale(1);}
+            50%{transform:translate(-50%, -50%) scale(1.5);}
+            100%{transform:translate(-50%, -50%) scale(1);}
+        }
+
+        .marker:hover{
+            animation:none;
+            transform:translate(-50%, -50%) scale(1.6);
+            box-shadow:0 0 25px gold;
+        }
+
+        /* тултип */
+        .marker span{
+            position:absolute;
+            left:50%;
+            top:-10px;
+            transform:translate(-50%, -100%);
+
+            background:rgba(0,0,0,0.9);
+            padding:8px 12px;
+            border-radius:8px;
+
+            font-size:12px;
+            line-height:1.4;
+            color:white;
+
+            min-width:120px;
+            max-width:300px;
+            max-height:250px;
+            overflow-y:auto;
+
+            width:max-content;
+
+            white-space:normal;
+            word-wrap:break-word;
+            text-align:center;
+
+            opacity:0;
+            pointer-events:none;
+            transition:0.2s;
+
+            z-index:10;
+        }
+
+        .marker span.show{
+            opacity:1;
+        }
+    </style>
+</head>
+
+<body>
+
+<a href="/" class="home">Домой</a>
+
+<div class="top-buttons">
+    <img src="/static/img/episkop_main.jpg" class="top-btn" onclick="switchScene('episkop', this)">
+    <img src="/static/img/felon.jpg" class="top-btn" onclick="switchScene('svyashennik', this)">
+    <img src="/static/img/diakon.jpg" class="top-btn" onclick="switchScene('diakon', this)">
+    <img src="/static/img/altarnik.jpg" class="top-btn" onclick="switchScene('sluzhitel', this)">
+</div>
+
+<div class="main">
+    <div class="wrapper">
+
+        <div class="side-menu" id="sideMenu"></div>
+
+        <div class="content">
+            <img id="mainImage" src="">
+            <div id="markers"></div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+    const data = {
+
+        episkop: {
+            items: [
+                {
+                    name:"Богослужебное одеяние",
+                    img:"/static/img/episkop_main.jpg",
+                    markers:[
+                        {x:50,y:20,text:"Ми́тра (от греч. μίτρα (митра) – головная повязка) – головной убор сферообразной формы, богато украшенный золотым шитьем, бисером, драгоценными камнями; принадлежность богослужебного облачения архиереев, архимандритов, а также священников, которым право ношения такого типа убора предоставляется в качестве награды."},
+                        {x:50,y:80,text:"Са́ккос (от греч. σάκκος – (саккос) – мешок, вретище, одежа из грубой материи) – богослужебное облачение архиерея, длинная, просторная одежда с широкими рукавами. Поверх саккоса надевается омофор и панагия с крестом."},
+                        {x:55,y:73,text:"Панагия – атрибут архиерейского облачения. В современной практике панагия – иконка овальной формы на цепи, которая носится на груди. На богослужении – поверх облачения; вне богослужения на официальных мероприятиях – поверх рясы. В русской традиции панагию носят только архиереи, и она является видимым признаком, позволяющим вне богослужения отличить архиерея от монашествующего священника. На панагии чаще всего изображена Богородица (отсюда и название «всесвятая» – одно из именований Богородицы)"},
+                        {x:35,y:55,text:"Омофо́р (от греч. ὠμοφόριον (омофорион) (от греч. ὦμος – плечо, и φορός – несущий) – носимый на плечах) – элемент богослужебного облачения архиерея, представляющий собой широкую ленту. Существуют два вида омофора: 1) Великий омофор – длинная широкая лента с изображениями крестов; огибая шею, спускается одним концом на грудь, другим – на спину. 2) Малый омофор – широкая лента с изображениями крестов, спускается обоими концами на грудь, спереди сшита или закреплена пуговицами. Надевается поверх саккоса."},
+                        {x:73,y:75,text:"Архиерейский жезл (посох) — это знак высшей пастырской власти епископа, символизирующий его роль как доброго пастыря, управляющего стадом Христовым. Жезл вручается при хиротонии, используется во время богослужений, часто имеет навершие в виде перевернутого якоря или двух змей, символизирующих мудрость."}
+                    ]
+                },
+                {
+                    name:"Внебогослужебное одеяние",
+                    img:"/static/img/episkop_1.jpg",
+                    markers:[
+                        {x:50,y:20,text:"Клобук - принадлежность внебогослужебного и, в определенных случаях, богослужебного облачения архиерея – архиерейский клобук, идентичен монашескому. В Русской Православной Церкви: • митрополиты носят клобук белого цвета с нашитым крестом, • архиепископы – чёрного с нашитым крестом, • епископы – чёрного (не отличается от обычного монашеского клобука)."},
+                        {x:60,y:75,text:"Ря́са (от греч. ράσον) – верхнее, не богослужебное облачение лиц духовного сана и монашествующих. Раньше словом «ράσον» обозначалась не стянутая, поношенная одежда, вретище. Как одежда монахов и лиц духовного сана представляет собой длинное до пят просторное платье с широкими рукавами. Существуют летние, зимние и демисезонные виды ряс, различающиеся между собой материалом и покроем."}
+                    ]
+                }
+            ]
+        },
+
+        svyashennik: {
+            items: [
+                {
+                    name:"Богослужебное одеяние",
+                    img:"/static/img/felon.jpg",
+                    markers:[
+                        {x:50,y:20,text:"Камила́вка (греч. καμελαύκιον (камелавкион)) – головной убор в виде расширяющегося кверху цилиндра, обтянутый материей."},
+                        {x:50,y:50,text:"Фело́нь – богослужебное облачение священника. Древняя фелонь имела форму длинной до пят одежды с прорезью для головы, без рукавов. Впоследствии, для удобства, спереди на подоле стали делать вырез, в настоящее время доходящий до пояса. Современная русская фелонь отличается от восточных наличием приподнятого жесткого оплечья. Фелонь была также богослужебным облачением архиереев – на востоке до XVI в. и в России до нач. XVIII в."},
+                        {x:50,y:60,text:"Напе́рсный крест – носимый на персях (на груди) крест как символ спасения и искупления человека, знамение победы Христа над смертью и адом; как орудие победы над диаволом и грехом."},
+                        {x:20,y:80,text:"По́ручи (нарука́вники (греч. ἐπιμανίκια)) – часть богослужебного облачения духовенства – широкие ленты со шнурами, стягивающие рукава подрясника или подризника у запястья; символизируют узы Христа (во время Его страданий), напоминают священнослужителям, что совершаемые ими священнодействия бывают действенны благодаря Божественной благодати."},
+                        {x:50,y:66,text:"По́яс – принадлежность богослужебного облачения священника и архиерея. По объяснению свт. Симеона Солунского, литургический пояс символизирует • служение Спасителя, • силу, даруемую от Бога, • целомудрие и чистоту."},
+                        {x:50,y:85,text:"Епитрахи́ль (от греч. ἐπιτραχήλιον – (облачение, расположенное) на шее) – принадлежность богослужебного облачения священника и архиерея – длинная лента, огибающая шею и обоими концами спускающаяся на грудь, спереди сшита или скреплена пуговицами, надевается поверх подризника или рясы."},
+                        {x:25,y:70,text:"Подри́зник – богослужебное облачение священника и архиерея – род стихаря – длинная до пят одежда, в талию, с узкими рукавами, белого или иного цвета, обычно шелковая. Термин вошел в русский церковный обиход, вероятно, во второй половине XVII века."}
+                    ]
+                },
+                {
+                    name:"Внебогослужебное одеяние",
+                    img:"/static/img/svia.jpg",
+                    markers:[
+                        {x:40,y:60,text:"Ряса"},
+                        {x:46,y:17,text:"Камилавка"},
+                        {x:46,y:87,text:"Наперсный крест"}
+                    ]
+                }
+            ]
+        },
+
+        diakon: {
+            items: [
+                {
+                    name:"Богослужебное одеяние",
+                    img:"/static/img/diakon.jpg",
+                    markers:[
+                        {x:32,y:36,text:"По́ручи (нарука́вники (греч. ἐπιμανίκια)) – часть богослужебного облачения духовенства – широкие ленты со шнурами, стягивающие рукава подрясника или подризника у запястья; символизируют узы Христа (во время Его страданий), напоминают священнослужителям, что совершаемые ими священнодействия бывают действенны благодаря Божественной благодати."},
+                        {x:70,y:35,text:"Ора́рь – принадлежность богослужебного облачения диакона и иподиакона – длинная лента. Диакон носит орарь на левом плече, сверх стихаря – один конец спускается на грудь, другой на спину. Во время произнесения прошений он поднимает правой рукой край ораря и использует его при совершении крестного знамения. При приготовлении к причащению за литургией он препоясывается орарем крестообразно."},
+                        {x:40,y:60,text:"Стиха́рь – (греч. στιχάριον, вероятно, от греч. στιχίδιον – строчка, лента) – диаконское и причетническое богослужебное облачение, представляющее собой длинное одеяние с широкими рукавами;"}
+
+                    ]
+                },
+                {
+                    name:"Внебогослужебное одеяние",
+                    img:"/static/img/diakon1.jpg",
+                    markers:[
+                        {x:40,y:60,text:"Ряса"},
+                        {x:50,y:20,text:"Камилавка"}
+                    ]
+                }
+            ]
+        },
+
+        sluzhitel: {
+            items: [
+                {
+                    name:"Богослужебное одеяние",
+                    img:"/static/img/altarnik.jpg",
+                    markers:[
+                        {x:50,y:50,text:"Стиха́рь – длинная одежда с широкими рукавами, с разрезами от подмышек до низа, скрепленными пуговицами. Делается обычно из плотной ткани. Стихарь надевается диаконом поверх подрясника. Стихари этого типа могут различаться по цвету. При облачении в стихарь читается следующий стих из Библии: «Возрадуется душа моя о Господе, облече бо мя в ризу спасения, и одеждею веселия одея мя, яко жениху возложи ми венец, и яко невесту украси мя красотою» (Ис.61:10)."}
+                    ]
+                },
+                {
+                    name:"Внебогослужебное одеяние",
+                    img:"/static/img/podrasnik.jpg",
+                    markers:[
+                        {x:40,y:60,text:"Подря́сник – (часто) нижнее (но не во всех случаях), длиною до пят, облачение клириков и монахов с узкими (в отличие от рясы) рукавами. По самому названию понятно предназначение подрясника в утилитарном отношении – он носится под рясой. Между тем подрясник, как часть особого облачения, имеет и более возвышенное значение."}
+                    ]
+                }
+            ]
+        }
+
+    }
+
+    const sideMenu = document.getElementById("sideMenu")
+    const mainImage = document.getElementById("mainImage")
+    const markers = document.getElementById("markers")
+
+    function resetTop(){
+        document.querySelectorAll(".top-btn").forEach(b=>b.classList.remove("active"))
+    }
+
+    function switchScene(type, el){
+
+        resetTop()
+        if(el) el.classList.add("active")
+
+        sideMenu.innerHTML = ""
+
+        data[type].items.forEach((item,index)=>{
+
+            const btn = document.createElement("button")
+            btn.className = "side-btn"
+            btn.innerText = item.name
+
+            btn.onclick = ()=>{
+                document.querySelectorAll(".side-btn").forEach(b=>b.classList.remove("active"))
+                btn.classList.add("active")
+
+                mainImage.src = item.img
+                drawMarkers(item.markers || [])
+            }
+
+            if(index===0){
+                btn.classList.add("active")
+                mainImage.src = item.img
+                drawMarkers(item.markers || [])
+            }
+
+            sideMenu.appendChild(btn)
+        })
+    }
+
+    function drawMarkers(list){
+
+        markers.innerHTML=""
+
+        list.forEach(m=>{
+            const div=document.createElement("div")
+            div.className="marker"
+            div.style.left=m.x+"%"
+            div.style.top=m.y+"%"
+
+            const span=document.createElement("span")
+            span.innerText=m.text
+
+            div.appendChild(span)
+            markers.appendChild(div)
+        })
+    }
+
+    switchScene("episkop", document.querySelector(".top-btn"))
+
+    document.addEventListener("mouseover", function(e){
+
+        const marker = e.target.closest(".marker")
+        if(!marker) return
+
+        const tooltip = marker.querySelector("span")
+        tooltip.classList.add("show")
+
+        tooltip.style.left = "50%"
+        tooltip.style.right = "auto"
+        tooltip.style.top = "-10px"
+        tooltip.style.transform = "translate(-50%, -100%)"
+
+        let rect = tooltip.getBoundingClientRect()
+
+        if(rect.top < 10){
+            tooltip.style.top = "120%"
+            tooltip.style.transform = "translate(-50%, 0)"
+            rect = tooltip.getBoundingClientRect()
+        }
+
+        if(rect.right > window.innerWidth - 10){
+            tooltip.style.left = "auto"
+            tooltip.style.right = "0"
+            tooltip.style.transform = "translate(0, -100%)"
+            rect = tooltip.getBoundingClientRect()
+        }
+
+        if(rect.left < 10){
+            tooltip.style.left = "0"
+            tooltip.style.transform = "translate(0, -100%)"
+        }
+
+    })
+
+    document.addEventListener("mouseout", function(e){
+
+        const marker = e.target.closest(".marker")
+        if(!marker) return
+
+        const tooltip = marker.querySelector("span")
+        tooltip.classList.remove("show")
+    })
+
+</script>
+
+</body>
+</html>

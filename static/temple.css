@@ -1,0 +1,124 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+.temple-container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 50px auto;
+}
+
+.temple-container img {
+    width: 100%;
+    display: block;
+}
+
+/* Интерактивные области */
+.interactive-item {
+    position: absolute;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border 0.2s, box-shadow 0.2s;
+}
+
+.interactive-item:hover {
+    border: 2px solid #FFD700; /* золотая подсветка */
+    box-shadow: 0 0 10px #FFD700;
+}
+
+/* Модальное окно */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 50%;
+    text-align: center;
+}
+
+#close-modal {
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Кнопка домой */
+.home-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #5C4033; /* темно-коричневый */
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.home-button:hover {
+    background-color: #4B3621;
+}
+body{
+margin:0;
+font-family:Arial;
+}
+
+.top-panel{
+position:absolute;
+top:20px;
+left:0;
+width:100%;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.home-btn{
+position:absolute;
+left:20px;
+background:#333;
+color:white;
+padding:10px 15px;
+text-decoration:none;
+border-radius:5px;
+}
+
+.scene-buttons{
+display:flex;
+gap:20px;
+}
+
+.scene-btn{
+width:200px;
+cursor:pointer;
+border-radius:10px;
+}
+
+.scene{
+width:100vw;
+height:100vh;
+
+background-size:contain;
+background-position:center;
+background-repeat:no-repeat;
+
+background-color:rgba(0,0,0,0.25);
+}

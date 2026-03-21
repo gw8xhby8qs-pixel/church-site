@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Принадлежности престола и жертвенника</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        /* кнопка домой */
+        .home-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+        .home-btn img {
+            width: 60px;
+            cursor: pointer;
+        }
+
+      /* верхние кнопки-сцены */
+.top-buttons {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+    z-index: 1000;
+}
+
+.scene-btn {
+    width: 140px;
+    height: 80px;
+    cursor: pointer;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 3px solid white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+    transition: transform 0.3s;
+    display: flex;          /* фиксирует размер контейнера */
+    align-items: center;
+    justify-content: center;
+    background-color: #000; /* временный фон, если картинка не загрузилась */
+}
+
+.scene-btn:hover {
+    transform: scale(1.08);
+}
+
+.scene-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;         /* ключевой момент — чтобы картинка не исчезала */
+}
+
+
+        /* маркеры */
+        .marker {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #FFD700;
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+            z-index: 1500;
+        }
+        .marker::after {
+            content: "";
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,215,0,0.7);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: translate(-50%,-50%) scale(0.6); opacity: 1; }
+            100% { transform: translate(-50%,-50%) scale(1.6); opacity: 0; }
+        }
+
+        /* всплывающая подсказка */
+        .tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.85);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            max-width: 220px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s, transform 0.2s;
+            z-index: 2000;
+        }
+        body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+
+    /* Фон под всё */
+    background-image: url("/static/images/bg.jpg"); /* твоя картинка */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+        .home-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 120px;       /* ширина */
+    height: 40px;       /* высота */
+    background-color: #4B2E2B; /* тёмно-коричневый */
+    color: white;       /* текст белый */
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none;
+    border-radius: 8px;  /* скругление углов */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+    .home-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.5);
+}
+    .marker {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #FFD700;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    z-index: 1500;
+    pointer-events: all; /* важно */
+}
+
+    .tooltip {
+    position: absolute;
+    background: rgba(0,0,0,0.85);
+    color: white;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    max-width: 500px;
+    max-height: 500px;
+    overflow-y: auto;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.2s;
+    z-index: 2000;
+}
+        .scene {
+
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: 120px auto 40px auto;
+
+    padding: 12px;
+
+    width: fit-content;
+    height: fit-content;
+
+    border: 8px double gold;
+    border-radius: 14px;
+
+    background: rgba(0,0,0,0.35);
+
+    box-shadow:
+        0 0 25px rgba(255,215,0,0.4),
+        0 15px 40px rgba(0,0,0,0.6);
+}
+
+#sceneImage {
+
+    display: block;
+
+    max-width: 90vw;
+    max-height: 80vh;
+
+    border-radius: 6px;
+
+    margin: auto;
+}
+    </style>
+</head>
+<body>
+
+<a href="/" class="home-btn">Домой</a>
+
+<!-- кнопки сцен -->
+<div class="top-buttons">
+    <div class="scene-btn" onclick="setScene('outside')">
+        <img src="/static/icons/prestoll.jpg" alt="Внешняя часть">
+    </div>
+    <div class="scene-btn" onclick="setScene('inside')">
+        <img src="/static/icons/zhertvennik.jpg" alt="Внутренняя часть">
+    </div>
+</div>
+
+<!-- фон сцены -->
+<div id="scene" class="scene">
+    <img id="sceneImage">
+</div>
+<div id="tooltip" class="tooltip"></div>
+
+<script>
+    const scenes = {
+        outside: {
+            bg: "/static/icons/prestoll.jpg",
+            markers: [
+                {top:"26%", left:"50%", text:"Дарохрани́тельница – особый священный сосуд, постоянно находящийся на престоле в храме, предназначенный для хранения запасных Святых Даров. Дарохранительницу сравнивают с Ковчегом Завета, устроенным по Божию повелению в Моисеевой скинии, так как он наряду с прообразованием других новозаветных святынь (престолов в православных храмах) и лиц (Господа Иисуса Христа; Пресвятой Богородицы) прообразовал и дарохранительницу – ковчег, в котором хранятся Святые Дары."},
+                {top:"45%", left:"50%", text:"Напрестольная лампадка — это наполненный маслом светильник, зажигаемый перед иконами или наверху больших стационарных подсвечников. Символическое значение лампады — вечный огонь веры во Христа, разгоняющий тьму зла и неверия."},
+                {top:"35%", left:"77%", text:"Евангелие, используемое во время богослужения, лежит в храме на престоле, от чего и происходит его название.  Богослужебное Евангелие отличается от обычного рядом параметров. Текст в нем разбит на зачала – фрагменты, которые читаются во время службы. Это сделано для удобства, чтобы священнослужители сразу видели начало и окончание нужного им фрагмента. Помимо этого, текст богослужебного Евангелия содержит ряд пояснений, какой фрагмент читать на определенных службах. Как правило, служебное Евангелие достаточно массивно. Даже так называемое малое напрестольное Евангелие крупнее многих изданий, предназначенных для обычного чтения. По традиции, напрестольное Евангелие имеет благолепно украшенную обложку – чаще всего, с металлическими накладками или полностью металлическую. На этой обложке мы обычно видим священные изображения. Все это делается в знак особого благоговения к слову Божию, заключенному в Евангелии. Еще одним проявлением благоговения к храмовому Евангелию является использование особых красивых закладок. Как правило, такая закладка имеет весьма внушительный размер. Когда Евангелие лежит на престоле, она спускается вниз, составляя часть церковного благоукрашения. "},
+                {top:"50%", left:"75%", text:"Крест напресто́льный – Крест с изображением Распятого Господа, полагаемый на престоле рядом с Евангелием. Напрестольный Крест имеет богослужебное употребление: им в особых случаях осеняется верующий народ, им освящается вода на Богоявление и при особо торжественных молебнах, в предусмотренные Уставом случаи, к нему прикладываются верующие."},
+                {top:"70%", left:"50%", text:"Антими́нс (от греч. ἀντί – вместо и лат. mensa – стол – вместопрестолие) – освященный архиереем четырехугольный плат из шелковой или льняной материи с изображением положения Иисуса Христа во гроб, с зашитой частицей святых мощей, на котором совершается литургия. Наиболее распространенный размер примерно 60 на 40 см. На антиминсах изображается положение во гроб Иисуса Христа после снятия с Креста, орудия Его казни, и четыре евангелиста. На антиминсе есть подпись епископа, который его освящал, а также указано, где, когда и для какого храма состоялось это освящение. Антиминс – неотъемлемая часть престола, без которой нельзя совершать литургию."},
+                {top:"73%", left:"30%", text:"Антиминсная губа (греч. σπόγγος, губа илитонная) — это литургический предмет, используемый в православной церкви для собирания частиц Святых Даров с антиминса, дискоса и копия, а также для отирания рук священнослужителей. Она символизирует губу с уксусом, которую дали Иисусу Христу на кресте, и хранится завернутой в антиминс."},
+                {top:"73%", left:"15%", text:"Антиминс разворачивается в определенный момент богослужения, по окончании которого свертывается особым образом и хранится в специальном плате – илитоне."},
+                {top:"48%", left:"17%", text:"Покров, которым накрывают престол со всеми находящимися на нем священными предметами по окончании богослужения, называется пеленой."}
+
+
+            ]
+        },
+        inside: {
+            bg: "/static/icons/zhertvennik.jpg",
+            markers: [
+                {top:"57%", left:"58%", text:"Ди́скос (от греч. δίσκος – блюдо, тарелка, диск) – небольшое блюдо на особой подставке, на которое во время Литургии полагаются св. Агнец и частицы, вынутые из других просфор (в разные моменты Литургии может знаменовать, например, вертеп и ясли, где родился Господь Иисус Христос; гроб Христов; а в совокупности с расположенными на нём частицами – Церковь Христову)."},
+                {top:"45%", left:"66%", text:"Поти́р (от др.-греч. ποτήρ, «чаша, кубок»; в латинском обряде – калеж, от лат. calix) – сосуд в виде глубокой чаши на ножке с широким основанием, используемый в богослужении многих христианских деноминаций на литургии для совершения Таинства Евхаристии (Причащения)."},
+                {top:"40%", left:"57%", text:"Плат – небольшой отрез ткани, который используют для обтирания уст и Чаши после Причастия. Во время совершения Божественной литургии плат находится под напрестольным крестом и выносится из алтаря на потире в свернутом виде непосредственно перед началом Таинства. Во время принятия Святых Даров его держат в руках церковнослужители или диакон, в обязанности которых входит отирание губ каждого из причастников после вкушения Тела и Крови Христовых. По завершении богослужения и потребления оставшихся Даров потир омывается чистой водой и насухо вытирается платом. Его использование исключает случайное падение частиц на пол или на одежду причастника, а также позволяет собрать их мельчайшие фрагменты для последующего бережного уничтожения согласно церковному канону."},
+                {top:"64%", left:"35%", text:"На дискос ставится звездица, поддерживающая возлагаемый на него во время Божественной литургии покровец."},
+                {top:"50%", left:"50%", text:"Агничная просфора — это главная из пяти служебных просфор в православной Церкви, используемая на Литургии для совершения Евхаристии. Из её центральной части вырезают кубический хлеб — Агнец, который во время богослужения становится Телом Христовым."},
+                {top:"41%", left:"25%", text:" Жертвенник в православном храме, как и престол, является одним из главных предметов церковной утвари, необходимых для совершения Божественной Литургии. Он представляет собой стол той же высоты, что и престол, но, как правило, меньшей площади. На жертвеннике непременно стоит распятие, перед которым горит лампада."},
+                {top:"78%", left:"50%", text:"Просфоры для проскомидии — это пять особых квасных пшеничных хлебцев, используемых на Литургии для приготовления Евхаристии и поминовения живых/умерших. Они символизируют хлеб, преломленный Христом, и состоят из двух частей, означающих две природы Христа (божественную и человеческую)."},
+                {top:"71%", left:"70%", text:"Копие́ – обоюдоострый нож с коротким треугольным лезвием, который используется на проскомидии для изъятия частиц из просфор и для вырезания и раздробления агнца. Символически изображает копье, которым были прободены ребра Иисуса Христа на Кресте (см. Ин.18:34)."}
+            ]
+        },
+    };
+
+    const sceneDiv = document.getElementById("scene");
+    const tooltip = document.getElementById("tooltip");
+
+    function setScene(name){
+        const scene = scenes[name];
+        document.getElementById("sceneImage").src = scene.bg;
+
+        // удаляем старые маркеры
+        document.querySelectorAll(".marker").forEach(m => m.remove());
+
+        // создаём маркеры для текущей сцены
+        scene.markers.forEach(m => {
+            const marker = document.createElement("div");
+            marker.className = "marker";
+            marker.style.top = m.top;
+            marker.style.left = m.left;
+            marker.dataset.text = m.text;
+            marker.style.position = "absolute";
+            marker.style.width = "18px";
+            marker.style.height = "18px";
+            marker.style.background = "#FFD700";
+            marker.style.borderRadius = "50%";
+            marker.style.cursor = "pointer";
+            marker.style.zIndex = 1500;
+            sceneDiv.appendChild(marker);
+
+            // обработчики
+            marker.addEventListener("mouseenter", e => {
+                tooltip.innerText = marker.dataset.text;
+                tooltip.style.opacity = 1;
+                tooltip.style.transform = "translateY(0)";
+            });
+            marker.addEventListener("mousemove", e => {
+                tooltip.style.left = e.pageX + 15 + "px";
+                tooltip.style.top = e.pageY + 15 + "px";
+            });
+            marker.addEventListener("mouseleave", e => {
+                tooltip.style.opacity = 0;
+                tooltip.style.transform = "translateY(10px)";
+            });
+        });
+    }
+
+    // стартовая сцена
+    setScene("outside");
+</script>
+
+</body>
+</html>

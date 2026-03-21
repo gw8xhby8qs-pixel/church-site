@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Marcellus&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Georgia', serif;
+            background: #f5f3ef;
+            color: #333;
+            line-height: 1.6;
+
+            background: url('/static/fresco.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+        }
+         .home-button {
+         position: absolute;
+         top: 5px;
+         left: 5px;
+         background-color: #5C4033; /* зеленая */
+         color: white;
+         padding: 12px 24px;
+         font-size: 16px;
+         font-weight: bold;
+         border: none;
+         border-radius: 8px;
+         cursor: pointer;
+         transition: 0.3s;
+}
+
+        /* Общий контейнер блоков книг */
+       .book-section {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+
+    max-width: 1100px;
+    margin: 70px auto;
+    padding: 35px;
+
+    background: rgba(248, 244, 232, 0.92); /* цвет старого пергамента */
+    backdrop-filter: blur(6px); /* мягкий стеклянный эффект */
+
+    border-radius: 14px;
+    border: 2px solid rgba(180,150,70,0.4);
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.25),
+        inset 0 0 20px rgba(0,0,0,0.05);
+
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.book-section:hover {
+    transform: translateY(-5px);
+    box-shadow:
+        0 15px 40px rgba(0,0,0,0.35),
+        inset 0 0 25px rgba(0,0,0,0.05);
+}
+
+        /* Когда блок виден на экране */
+        .book-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Картинка книги */
+        .book-image img {
+            width: 250px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Текст книги */
+        .book-info {
+            max-width: 600px;
+        }
+
+        /* Чередование блоков (картинка слева/справа) */
+        .book-section:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        /* Заголовок книги */
+        .book-info h2 {
+            margin-top: 0;
+            color: #6b3e00;
+        }
+
+        /* Мелкий стиль для текста */
+        .book-info p {
+            margin-bottom: 15px;
+        }
+
+        /* Адаптивность для мобильных */
+        @media (max-width: 800px) {
+            .book-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            .book-section:nth-child(even) {
+                flex-direction: column;
+            }
+            .book-image img {
+                width: 70%;
+                margin-bottom: 20px;
+            }
+            .book-info {
+                max-width: 90%;
+            }
+        }
+        .books-banner {
+
+    max-width: 1100px;
+    margin: 60px auto 30px auto;
+    padding: 35px;
+
+    text-align: center;
+
+    background: rgba(248, 244, 232, 0.92);
+    backdrop-filter: blur(6px);
+
+    border-radius: 14px;
+    border: 2px solid rgba(180,150,70,0.4);
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.25),
+        inset 0 0 20px rgba(0,0,0,0.05);
+}
+
+.books-banner h1 {
+
+    margin: 0;
+
+    font-family: 'Marcellus', serif;
+    font-size: 46px;
+
+    color: #6b4b1f;
+
+    letter-spacing: 2px;
+
+    text-shadow:
+        1px 1px 0 rgba(255,255,255,0.4),
+        2px 2px 6px rgba(0,0,0,0.2);
+}
+        .books-banner:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,0.35),
+        inset 0 0 25px rgba(0,0,0,0.05);
+
+    transition: 0.3s;
+}
+    </style>
+</head>
+<body>
+
+<div class="home-button-container">
+    <a href="{{ url_for('index') }}">
+        <button class="home-button">Домой</button>
+    </a>
+</div>
+<div class="books-banner">
+    <h1> Богослужебные книги </h1>
+</div>
+
+<section class="book-section">
+    <div class="book-image">
+        <img src="static/images/evangeliar.png" alt="Евангелие">
+    </div>
+    <div class="book-info">
+        <h2>Евангелие</h2>
+        <p>Евангелие – это Слово Божие. Оно состоит из четырех первых книг Нового Завета, написанными евангелистами Матфеем, Марком, Лукою и Иоанном. Евангелие содержит в себе описание земной жизни Господа нашего Иисуса Христа: Его учение, чудеса, крестные страдания, смерть, славное воскресение и вознесение Его на небо. Богослужебное Евангелие имеет ту особенность, что кроме обыкновенного деления на главы и стихи, делится еще на особые отделы, называемые «зачалами». В конце книги помещается указатель: когда читать то или другое зачало.</p>
+    </div>
+</section>
+
+<section class="book-section">
+    <div class="book-image">
+        <img src="static/images/apostol.png" alt="Апостол">
+    </div>
+    <div class="book-info">
+        <h2>Апостол</h2>
+        <p>Апостол, так называется на церковном языке книга, содержащая последующие книги Нового Завета: Деяния Святых Апостолов, соборные послания и послания апостола Павла (кроме книги Апокалипсис). Книга Апостол также, как и Евангелие разделена, кроме глав и стихов, на «зачала», с указанием в конце книги, когда и какое читать «зачало».</p>
+    </div>
+</section>
+
+<section class="book-section">
+    <div class="book-image">
+        <img src="static/images/tipikon.png" alt="Типикон">
+    </div>
+    <div class="book-info">
+        <h2>Типикон</h2>
+        <p>Типикон или Устав содержит в себе подробное указание: в какие дни и часы, при каких Божественных службах и в каком порядке должно читать или петь молитвословия, содержащиеся в служебнике, часослове, октоихе и других богослужебных книгах.</p>
+    </div>
+</section>
+
+<section class="book-section">
+    <div class="book-image">
+        <img src="static/images/sluzebnik.png" alt="Служебник">
+    </div>
+    <div class="book-info">
+        <h2>Служебник</h2>
+        <p>Служебник – книга для священника и диакона. Она содержит в себе порядок вечерни, утрени и Литургии. В конце служебника помещены: отпусты, прокимны, величания и месяцеслов, т. е. список святых, ежедневно воспоминаемых церковью.</p>
+    </div>
+</section>
+
+
+<section class="book-section">
+    <div class="book-image">
+        <img src="static/images/minea.png" alt="Минея">
+    </div>
+    <div class="book-info">
+        <h2>Минея</h2>
+        <p>Минея Месячная содержит в себе молитвы в честь святых на каждый день года и торжественные службы на праздники Господни и Богородичные, приходящиеся на определенный день месяца. По числу 12 месяцев она разделяется на 12 отдельных книг.  Минея Общая заключает в себе песнопения общие целому лику святых, например, в честь пророков, апостолов, мучеников, преподобных и проч. Она употребляется при Богослужении в том случае, если какому-либо святому не составлено отдельной службы в Минее Месячной.  Минея Праздничная содержит в себе службы Великих Праздников, извлеченные из Минеи Месячной.</p>
+    </div>
+</section>
+
+<section class="book-section">
+    <div class="book-image">
+        <img src="static/images/oktoich.png" alt="октоих">
+    </div>
+    <div class="book-info">
+        <h2>Октоих</h2>
+        <p>Октоих или Осмигласник заключает в себе песнопения (тропари, кондаки, каноны и проч.), разделенные на восемь напевов или «гласов». Каждый глас, в свою очередь, содержит в себе песнопения на всю седмицу, так что службы Октоиха повторяются раз в восемь недель. Разделение церковного пения на гласы совершено было знаменитым песнопевцем греческой Церкви св. Иоанном Дамаскиным (VIII в.). Ему приписывается и составление Октоиха, хотя надо заметить, что в составлении Октоиха принимали участие св. Митрофан, епископ Смирнский, св. Иосиф песнописец и другие.</p>
+    </div>
+</section>
+
+<section class="book-section">
+    <div class="book-image">
+        <img src="static/images/chasoslov.png" alt="Часослов">
+    </div>
+    <div class="book-info">
+        <h2>Часослов</h2>
+        <p>Часослов – книга, служащая руководством для чтецов и певцов на клиросе. Часослов содержит в себе порядок всех повседневных служб, кроме Литургии.</p>
+    </div>
+</section>
+
+<section class="book-section">
+    <div class="book-image">
+        <img src="static/images/psaltir.png" alt="Псалтирь">
+    </div>
+    <div class="book-info">
+        <h2>Псалтирь</h2>
+        <p>Псалтирь – книга пророка и царя Давида. Так называется она потому, что большинство псалмов в ней написаны св. пр. Давидом. В этих псалмах св. пророк открывает перед Богом свою душу, все свои радости, печали, кается в содеянных грехах, прославляет бесконечные Божия совершенства, благодарит Его за все Его милости, благодеяния, просит помощи во всех своих предприятиях... Вот почему псалтирь и употребляется при Богослужении чаще всех других богослужебных книг.  Книга Псалтирь для употребления при Богослужении разделена на двадцать отделений, называемых «кафизмами», а каждая «кафизма» делится на три части, называемые «славами».  Кроме простой Псалтири есть еще Псалтирь «следованная», она отличается тем, что содержит в себе три приложения: а) Часослов, б) тропари и кондаки, выбранные из всех богослужебных книг и в) все молитвословия, которые должны читаться приступающими к Св. Таинству Причащения.</p>
+    </div>
+</section>
+
+<section class="book-section">
+    <div class="book-image">
+        <img src="static/images/irmology.png" alt="Ирмологий">
+    </div>
+    <div class="book-info">
+        <h2>Ирмологий</h2>
+        <p>Ирмологий содержит в себе избранные из различных канонов песнопения, называемые ирмосами (ирмос есть начальное песнопение каждой песни канона).</p>
+    </div>
+</section>
+
+<section class="book-section">
+    <div class="book-image">
+        <img src="static/images/chinovnik.png" alt="Чиновник">
+    </div>
+    <div class="book-info">
+        <h2>Чиновник</h2>
+        <p>Архиерейский служебник (или «Архиерейский чиновник») отличается тем, что содержит в себе еще чин освящения антиминса и чины посвящения в чтеца, диакона, священника и др.</p>
+    </div>
+</section>
+
+<section class="book-section">
+    <div class="book-image">
+        <img src="static/images/trebnik.png" alt="Требник">
+    </div>
+    <div class="book-info">
+        <h2>Требник</h2>
+        <p>Требник – книга, заключающая в себе чинопоследования Св. Таинств (кроме таинств Св. Причащения и Священства) и других треб – чин отпевания и погребения усопших, чин освящения воды, молитвы по рождении младенца, при наречении младенца и воцерковлении его и др.</p>
+    </div>
+</section>
+
+<section class="book-section">
+    <div class="book-image">
+        <img src="static/images/triod.png" alt="Триодь">
+    </div>
+    <div class="book-info">
+        <h2>Триодь</h2>
+        <p>Триодь Постная содержит в себе молитвословия на дни Великого Поста и на приготовительные недели к нему, начиная с недели Мытаря и Фарисея и до Пасхи. Слово: «Триодь» греческое и означает трипеснец. Такое название эта книга и следующая за ней «Триодь Цветная» получили потому, что в них имеются неполные каноны, состоящие всего из трех песней, вместо обычных девяти песней канона.</p>
+    </div>
+</section>
+
+<section class="book-section">
+    <div class="book-image">
+        <img src="static/images/triodcvetnaya.png" alt="Цветная Триодь">
+    </div>
+    <div class="book-info">
+        <h2>Цветная Триодь</h2>
+        <p>Триодь Цветная заключает в себе песнопения со дня Св. Пасхи до недели Всех Святых (т. е. до 9-го Воскресения, считая со дня Пасхи).</p>
+    </div>
+</section>
+
+
+
+<script>
+    // Анимация появления блоков при скролле
+    const sections = document.querySelectorAll('.book-section');
+
+    function checkVisibility() {
+        const triggerBottom = window.innerHeight * 0.85;
+        sections.forEach(section => {
+            const sectionTop = section.getBoundingClientRect().top;
+            if(sectionTop < triggerBottom) {
+                section.classList.add('visible');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', checkVisibility);
+    window.addEventListener('load', checkVisibility);
+</script>
+
+</body>
+</html>

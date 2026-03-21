@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Theology Site</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="top-banner" style="background-image: url('{{ url_for('static', filename='banner.jpg') }}');">
+    <h1>Начало премудрости - страх Господень</h1>
+</div>
+<div class="container">
+    <a href="/analysis" class="big-icon-button" style="background-image: url('{{ url_for('static', filename='icons/fathers.png') }}');">
+        <span>Чтение текстов святых отцов</span>
+    </a>
+    <a href="/books" class="big-icon-button" style="background-image: url('{{ url_for('static', filename='icons/library.png') }}');">
+        <span>Богослужебные книги</span>
+    </a>
+    <a href="/temple" class="big-icon-button" style="background-image: url('{{ url_for('static', filename='icons/temple.png') }}');">
+        <span>Символизм храма</span>
+    </a>
+    <a href="/icons" class="big-icon-button" style="background-image: url('{{ url_for('static', filename='icons/icons.png') }}');">
+        <span>Все о иконах</span>
+    </a>
+    <a href="/prestol" class="big-icon-button" style="background-image: url('{{ url_for('static', filename='icons/prestol.jpg') }}');">
+        <span>Принадлежности престола, жертвенника, сосуды и прочее</span>
+    </a>
+    <a href="/oblachenia" class="big-icon-button oblachenia" style="background-image: url('{{ url_for('static', filename='icons/oblachenia.png') }}');">
+        <span>Облачения священнослужителей</span>
+    </a>
+</div>
+<footer class="page-footer">
+    <div>
+        <span>©️ 2026 Theology Site</span>
+        <span> | Разработано Klew</span>
+    </div>
+    <div>
+        <img src="{{ url_for('static', filename='icons/small_cross.png') }}" alt="крест" class="footer-icon">
+        <a href="/about">О проекте</a>
+    </div>
+</footer>
+</body>
+</html>

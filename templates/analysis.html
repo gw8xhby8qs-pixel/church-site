@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Читалка текстов святых отцов</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='analysis.css') }}">
+</head>
+<body>
+
+<div class="analysis-container">
+
+    <!-- Центральное поле читалки -->
+    <div id="analysis-area">
+        <h2>Поле текста</h2>
+        <div id="drop-zone">Перетащи сюда текст</div>
+    </div>
+
+    <!-- Поле вывода (для модалки) -->
+    <div id="analysis-output"></div>
+
+    <!-- Кнопка домой -->
+    <div class="home-button-container">
+        <a href="{{ url_for('index') }}">
+            <button class="home-button"> Домой</button>
+        </a>
+    </div>
+
+</div>
+
+<!-- Иконки святых -->
+<div class="father-icons-container">
+
+    <div class="father-icon basil" data-father="basil">
+        <img src="{{ url_for('static', filename='icons/basil.png') }}" alt="Василий Великий">
+        <span>Василий Великий</span>
+    </div>
+    <div class="father-icon gregory" data-father="gregory">
+        <img src="{{ url_for('static', filename='icons/gregory.png') }}" alt="Григорий Богослов">
+        <span>Григорий Богослов</span>
+    </div>
+    <div class="father-icon john" data-father="john">
+        <img src="{{ url_for('static', filename='icons/john.png') }}" alt="Иоанн Златоуст">
+        <span>Иоанн Златоуст</span>
+    </div>
+    <div class="father-icon athanasius" data-father="athanasius">
+        <img src="{{ url_for('static', filename='icons/athanasius.png') }}" alt="Афанасий Великий">
+        <span>Афанасий Великий</span>
+    </div>
+    <div class="father-icon ignaty" data-father="ignaty">
+        <img src="{{ url_for('static', filename='icons/ignaty.png') }}" alt="Игнатий Богоносец">
+        <span>Игнатий Богоносец</span>
+    </div>
+    <div class="father-icon kliment" data-father="kliment">
+        <img src="{{ url_for('static', filename='icons/kliment.png') }}" alt="Климент Римский">
+        <span>Климент Римский</span>
+    </div>
+    <div class="father-icon polikarp" data-father="polikarp">
+        <img src="{{ url_for('static', filename='icons/polikarp.png') }}" alt="Поликарп Смирнский">
+        <span>Поликарп Смирнский</span>
+    </div>
+    <div class="father-icon nissky" data-father="nissky">
+        <img src="{{ url_for('static', filename='icons/nissky.png') }}" alt="Григорий Нисский">
+        <span>Григорий Нисский</span>
+    </div>
+    <div class="father-icon antony" data-father="antony">
+        <img src="{{ url_for('static', filename='icons/antony.png') }}" alt="Антоний Великий">
+        <span>Антоний Великий</span>
+    </div>
+    <div class="father-icon makary" data-father="makary">
+        <img src="{{ url_for('static', filename='icons/makary.png') }}" alt="Макарий Великий">
+        <span>Макарий Великий</span>
+    </div>
+    <div class="father-icon lestvichnik" data-father="lestvichnik">
+        <img src="{{ url_for('static', filename='icons/lestvichnik.png') }}" alt="Иоанн Лествичник">
+        <span>Иоанн Лествичник</span>
+    </div>
+    <div class="father-icon efrem" data-father="efrem">
+        <img src="{{ url_for('static', filename='icons/efrem.png') }}" alt="Ефрем Сирин">
+        <span>Ефрем Сирин</span>
+    </div>
+    <div class="father-icon maksimisp" data-father="maksimisp">
+        <img src="{{ url_for('static', filename='icons/maksimisp.png') }}" alt="Максим Исповедник">
+        <span>Максим Исповедник</span>
+    </div>
+    <div class="father-icon damaskin" data-father="damaskin">
+        <img src="{{ url_for('static', filename='icons/damaskin.png') }}" alt="Иоанн Дамаскин">
+        <span>Иоанн Дамаскин</span>
+    </div>
+    <div class="father-icon sarovski" data-father="sarovski">
+        <img src="{{ url_for('static', filename='icons/sarovski.png') }}" alt="Серафим Саровский">
+        <span>Серафим Саровский</span>
+    </div>
+    <div class="father-icon brjanchaninov" data-father="brjanchaninov">
+        <img src="{{ url_for('static', filename='icons/brjanchaninov.png') }}" alt="Игнатий Брянчанинов">
+        <span>Игнатий Брянчанинов</span>
+    </div>
+    <div class="father-icon feofan" data-father="feofan">
+        <img src="{{ url_for('static', filename='icons/feofan.png') }}" alt="Феофан Затворник">
+        <span>Феофан Затворник</span>
+    </div>
+    <div class="father-icon afonsky" data-father="afonsky">
+        <img src="{{ url_for('static', filename='icons/afonsky.png') }}" alt="Силуан Афонский">
+        <span>Силуан Афонский</span>
+    </div>
+    <div class="father-icon lionsky" data-father="lionsky">
+        <img src="{{ url_for('static', filename='icons/lionsky.png') }}" alt="Ириней Лионский">
+        <span>Ириней Лионский</span>
+    </div>
+    <div class="father-icon kirill" data-father="kirill">
+        <img src="{{ url_for('static', filename='icons/kirill.png') }}" alt="Кирилл Александрийский">
+        <span>Кирилл Александрийский</span>
+    </div>
+
+</div>
+
+<!-- Меню карточки -->
+<div id="texts-menu">
+    <ul id="texts-list"></ul>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const icons = document.querySelectorAll(".father-icon");
+        const menu = document.getElementById("texts-menu");
+        const textsList = document.getElementById("texts-list");
+        const dropZone = document.getElementById("drop-zone");
+
+        const modal = document.getElementById("modal");
+        const modalText = document.getElementById("modal-text");
+        const closeModal = document.getElementById("close-modal");
+
+        closeModal.addEventListener("click", () => modal.style.display = "none");
+        window.addEventListener("click", e => { if(e.target === modal) modal.style.display = "none"; });
+
+        const textsData = {
+            basil: [
+                {title: "Опровержение Евномия", file: "static/texts/Evnomy.txt"},
+                {title: "О Святом Духе", file: "static/texts/StSpirit.txt"},
+                {title: "Гомилия о девстве", file: "static/texts/Gomiliya.txt"}
+            ],
+            gregory: [
+                {title: "О Троице", content: "Текст Григория о Троице"}
+            ],
+            john: [
+                {title: "О покаянии", content: "Текст Иоанна о покаянии"}
+            ],
+            athanasius: [
+                {title: "О воплощении", content: "Текст Афанасия о воплощении"}
+            ]
+        };
+
+        const colorMap = {
+            basil: "color-basil",
+            gregory: "color-gregory",
+            john: "color-john",
+            athanasius: "color-athanasius"
+        };
+
+        // Показ меню при клике на иконку
+        icons.forEach(icon => {
+            icon.addEventListener("click", () => {
+                const father = icon.dataset.father;
+                const rect = icon.getBoundingClientRect();
+                const texts = textsData[father] || [];
+                textsList.innerHTML = "";
+
+                texts.forEach(t => {
+                    const li = document.createElement("div");
+                    li.textContent = t.title;
+                    li.setAttribute("draggable", "true");
+
+                    li.addEventListener("dragstart", e => {
+                        e.dataTransfer.setData("title", t.title);
+                        e.dataTransfer.setData("color", colorMap[father] || "");
+                        if(t.file) e.dataTransfer.setData("file", t.file);
+                        if(t.content) e.dataTransfer.setData("text", t.content);
+                    });
+
+                    textsList.appendChild(li);
+                });
+
+                menu.style.display = "block";
+                menu.style.top = rect.bottom + window.scrollY + "px";
+                menu.style.left = rect.left + window.scrollX + "px";
+            });
+        });
+
+        document.addEventListener("click", e => {
+            if(!menu.contains(e.target) && !e.target.closest(".father-icon")) menu.style.display = "none";
+        });
+
+        // Drag & Drop (только один текст)
+        dropZone.addEventListener("dragover", e => { e.preventDefault(); dropZone.classList.add("drag-over"); });
+        dropZone.addEventListener("dragleave", e => dropZone.classList.remove("drag-over"));
+
+        dropZone.addEventListener("drop", async e => {
+            e.preventDefault();
+            dropZone.classList.remove("drag-over");
+
+            // Убираем предыдущий текст
+            dropZone.innerHTML = "";
+
+            const title = e.dataTransfer.getData("title");
+            const colorClass = e.dataTransfer.getData("color");
+            const contentInline = e.dataTransfer.getData("text");
+            const file = e.dataTransfer.getData("file");
+
+            if(!title) return;
+
+            const book = document.createElement("div");
+            book.classList.add("book");
+            if(colorClass) book.classList.add(colorClass);
+
+            const span = document.createElement("span");
+            span.textContent = title;
+            book.appendChild(span);
+
+            const removeBtn = document.createElement("button");
+            removeBtn.textContent = "✖";
+            removeBtn.style.cssText = `
+                position: absolute; top: 2px; right: 2px; background:red; color:white;
+                border:none; border-radius:50%; width:20px; height:20px; cursor:pointer;
+                font-size:12px; line-height:16px; padding:0;
+            `;
+            removeBtn.addEventListener("click", ev => { ev.stopPropagation(); book.remove(); });
+            book.appendChild(removeBtn);
+
+            let content = contentInline || "";
+            if(file){
+                try{
+                    const response = await fetch(file);
+                    content = await response.text();
+                }catch(err){ content = "Ошибка загрузки файла"; }
+            }
+            book.dataset.fileContent = content;
+
+            book.addEventListener("click", () => {
+                modalText.textContent = content;
+                modalText.style.fontSize = "18px";
+                modalText.style.whiteSpace = "pre-wrap";
+                modal.style.display = "block";
+            });
+
+            dropZone.appendChild(book);
+        });
+    });
+</script>
+
+<!-- Модалка -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span id="close-modal">&times;</span>
+        <pre id="modal-text"></pre>
+    </div>
+</div>
+
+</body>
+</html>
