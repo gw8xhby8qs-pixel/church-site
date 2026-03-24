@@ -12,7 +12,10 @@ def home():
 # Чтение текстов
 @app.route("/analysis")
 def analysis():
-    return render_template("analysis.html")
+    try:
+        return render_template("analysis.html")
+    except Exception as e:
+        return f"Ошибка: {e}"
 
 
 # Символизм храма
@@ -24,7 +27,10 @@ def temple():
 # Богослужебные книги
 @app.route("/books")
 def books():
-    return render_template("books.html")
+    try:
+        return render_template("books.html")
+    except Exception as e:
+        return f"Ошибка: {e}"
 
 
 # Принадлежности престола
